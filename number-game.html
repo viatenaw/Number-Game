@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+<title>Inkoop Assessment Code</title>
+</head>
+<body>
+    <div id="d1">
+    <h1 id = "gameName">Number Game</h1>
+    <p id = "p1">Build a game in js with following rules</p>
+    <ul id ="u1">
+        <li>User has 1000 INR when he starts the game</li>
+        <li>Every try(click on start) is charged 100 INR</li>
+        <li>Game is over if user has less than 100 INR</li>
+        <li>Every try generates three random numbers, each random number is in 0-9 range</li>
+        <li>If all the numbers are odd/even (eg. 2 4 6), user gets 300 INR</li>
+        <li>If the numbers are in sequence with difference of 1 in any order (eg. 2 3 4 or 3 2 4 or 4 6 5), user gets 800 INR</li>
+        <li>If all the numbers are same (eg. 4 4 4), user gets 1000 INR</li>
+        <li>Else user gets no money</li>
+    </ul>
+    </div>
+<div id="d2">
+    <h3 id= "game">Game</h3>
+    <h3 id="randomNumbers" >
+    <span id="randomNumber1" ></span>
+    <span id="randomNumber2" ></span>
+    <span id="randomNumber3" ></span>
+     </h3>
+     <div id= "d3">
+        <p id="para"></p> 
+     </div>
+     
+    <div id="moneyCounter">You have <span id="moneyLeft">1000</span> INR</div>
+    <br/>
+    <button  id="startButton" onclick="clickHandler()">Start</button>
+    
+    <div id="message"></div>
+</div>
+    <script type="text/javascript">
+        
+    const remove =()=>{
+           
+        let parent = document.getElementById("d1");
+        let childPara = document.getElementById("p1");
+        let childList = document.getElementById("u1");
+        let childHeading2=  document.getElementById("gameName");
+            parent.removeChild(childPara);
+            parent.removeChild(childList); 
+            parent.removeChild(childHeading2);
+        let parentdiv2 =  document.getElementById("d2");
+        let childHeading = document.getElementById("game");  
+        parentdiv2.removeChild(childHeading); 
+            add();
+    }
+    const add =()=>{
+         let para = document.createElement("p");
+        let node = document.createTextNode("The random numbers are:");
+           para.appendChild(node);
+        let parent =  document.getElementById("d2");
+        let child = document.getElementById("randomNumbers");
+        parent.insertBefore(para, child);     
+      
+    }
+          
+     let ele = document.getElementById('moneyLeft').innerHTML;
+     let remainingBal = Number(ele);
+
+        function clickHandler(){
+           let parentele = document.getElementById("d3")
+           let childele = document.getElementById("para")
+           parentele.removeChild(childele);     
+
+            remainingBal -= 100; 
+            document.getElementById('moneyLeft').innerHTML=remainingBal; 
+            
+            document.getElementById('randomNumber1').innerHTML = 
+                    Math.floor(Math.random() *9) +1;
+            document.getElementById('randomNumber2').innerHTML = 
+                    Math.floor(Math.random() *9) +1;
+            document.getElementById('randomNumber3').innerHTML = 
+                    Math.floor(Math.random() *9) +1;
+            let random1 = document.getElementById('randomNumber1').innerHTML;
+            let random2 = document.getElementById('randomNumber2').innerHTML;
+            let random3 = document.getElementById('randomNumber3').innerHTML;
+            
+            if(random1===random3 && random1===random2){
+                
+                 remainingBal += 1000; 
+             document.getElementById('moneyLeft').innerHTML=remainingBal; 
+              let para = document.createElement("p");
+            let node = document.createTextNode("You were lucky this time, you got 1000 INR as the numbers are all equal");
+            para.appendChild(node);
+            let parent =  document.getElementById("d3");
+            para.setAttribute("id", "para");
+             parent.appendChild(para);  
+            }           
+
+           else if(random1 %2===0 && random2 %2===0 && random3 %2===0){
+            
+                remainingBal += 300; 
+             document.getElementById('moneyLeft').innerHTML=remainingBal; 
+            let para = document.createElement("p");
+            let node = document.createTextNode("You were lucky this time, you got 300 INR as all the numbers are even");
+            para.appendChild(node);
+            let parent =  document.getElementById("d3");
+             para.setAttribute("id", "para");
+            parent.appendChild(para); 
+
+            }
+            else if(random1 %2!==0 && random2 %2!==0 && random3 %2!==0){
+               remainingBal += 300; 
+             document.getElementById('moneyLeft').innerHTML=remainingBal; 
+            let para = document.createElement("p");
+            let node = document.createTextNode("You were lucky this time, you got 300 INR as all the numbers are odd");
+            para.appendChild(node);
+            let parent =  document.getElementById("d3");
+             para.setAttribute("id", "para");
+             parent.appendChild(para);   
+            }
+
+            else if((Math.abs(random1-random2)===1 && Math.abs(random2-random3)===1 && random1 !== random3) || (Math.abs(random1-random3)===1 && Math.abs(random2-random3)===1 && random1 !== random2) ||
+            (Math.abs(random1-random2)===1 && Math.abs(random1-random3)===1 && random2!== random3)){
+
+             
+            remainingBal += 800;
+            document.getElementById('moneyLeft').innerHTML=remainingBal;
+            let para = document.createElement("p");
+            let node = document.createTextNode("You were lucky this time, you got 800 INR as all the numbers have difference 1");
+            para.appendChild(node);
+            let parent =  document.getElementById("d3");
+             para.setAttribute("id", "para");
+             parent.appendChild(para); 
+
+            }
+            
+            else{
+                let para = document.createElement("p");
+            let node = document.createTextNode("You were not lucky this time.");
+            para.appendChild(node);
+            let parent =  document.getElementById("d3");
+             para.setAttribute("id", "para");
+           parent.appendChild(para);  
+            }
+             if(remainingBal<100){
+                document.getElementById('message').innerHTML = "Game Over"
+                document.getElementById("startButton").disabled = true;
+            }
+            
+           
+        remove();
+           
+        }
+
+
+    </script>
+</body>
+</html>
